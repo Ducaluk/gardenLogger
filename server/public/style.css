@@ -1,0 +1,32 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+i {
+    font-size: 10em;
+}
+
+p {
+    font-size: 4em;
+}
+
+#cardInfo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+#cardInfo div {
+    text-align: center;
+    width: 315px;
+    float: left;
+}
+
+#latestUpdate {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

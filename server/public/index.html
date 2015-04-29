@@ -1,10 +1,29 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>test</title>
-</head>
-<body>
 
-<script type="text/javascript" src="scripts.js"></script>
+<head>
+    <title>GardenLogger</title>
+    <link rel="stylesheet" href="weather-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="latestUpdate"><span>-</span></div>
+    <div id="cardInfo">
+        <div id="humidity"><i class="wi wi-sprinkles"></i>
+            <p>-</p>
+        </div>
+        <div id="lux"><i class="wi wi-day-sunny"></i>
+            <p>-</p>
+        </div>
+        <div id="temperature"><i class="wi wi-thermometer"></i>
+            <p>-</p>
+        </div>
+    </div>
+    <ul id="incomingData"></ul>
+    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
