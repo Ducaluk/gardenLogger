@@ -4,25 +4,50 @@
     <title>GardenLogger</title>
     <link rel="stylesheet" href="weather-icons.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <div id="latestUpdate"><span>-</span></div>
-    <div id="cardInfo">
-        <div id="humidity"><i class="wi wi-sprinkles"></i>
-            <p>-</p>
+<div class="navbar navbar-fixed-top navbar-default">
+            <ul class="nav navbar-nav">
+                <li id="navDash" class="active"><a href="#"><i class="fa fa-tachometer"></i></a></li>
+                <li id="navTable"><a href="#"><i class="fa fa-table"></i></a>
+            </ul>
         </div>
-        <div id="lux"><i class="wi wi-day-sunny"></i>
-            <p>-</p>
+    <div class="container">
+        
+        
+        <div id="cardInfo" class="hide">
+            <div id="humidity"><i class="wi wi-sprinkles"></i>
+                <p>-</p>
+            </div>
+            <div id="lux"><i class="wi wi-day-sunny"></i>
+                <p>-</p>
+            </div>
+            <div id="temperature"><i class="wi wi-thermometer"></i>
+                <p>-</p>
+            </div>
         </div>
-        <div id="temperature"><i class="wi wi-thermometer"></i>
-            <p>-</p>
+        <div id="dataLog" class="hide">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                        <th>Lux</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
-    <ul id="incomingData"></ul>
     <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="app.js"></script>
 </body>
 

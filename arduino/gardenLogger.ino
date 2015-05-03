@@ -24,7 +24,7 @@ void setup() {
 }
 
 void loop() {
-  delay(3000);
+  delay(30000);
   readDhtData();
   sensors_event_t event;
   tsl.getEvent(&event);

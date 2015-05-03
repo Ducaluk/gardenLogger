@@ -30,3 +30,18 @@ p {
     bottom: 10px;
     right: 10px;
 }
+
+.navbar-nav li a i
+{
+    font-size: 2em;
+}
+
+.hide
+{
+    display: none;
+}
+
+body
+{
+    padding-top: 70px;
+}
