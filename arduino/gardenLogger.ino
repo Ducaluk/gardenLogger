@@ -1,61 +1,65 @@
-#include <Wire.h>
 #include <DHT.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_TSL2561_U.h>
-#include <ArduinoJson.h>
+#include <Ethernet.h>
+#include <SPI.h>
 
-#define DHTPIN 2
-#define DHTTYPE DHT22
-int incomingByte = 0; 
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x00, 0x14, 0x5F }; // RESERVED MAC ADDRESS
+EthernetClient client;
 
+#define DHTPIN 2 // SENSOR PIN
+#define DHTTYPE DHT11 // SENSOR TYPE - THE ADAFRUIT LIBRARY OFFERS SUPPORT FOR MORE MODELS
 DHT dht(DHTPIN, DHTTYPE);
-Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
-static char strH[15];
-static char strT[15];
+long previousMillis = 0;
+unsigned long currentMillis = 0;
+long interval = 250000; // READING INTERVAL
 
-void setup() {
-     Serial.begin(115200); 
-     dht.begin();
-     tsl.begin();
-     tsl.enableAutoRange(true); 
-     tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);
-  
+int t = 0;	// TEMPERATURE VAR
+int h = 0;	// HUMIDITY VAR
+String data;
+
+void setup() { 
+	Serial.begin(115200);
+
+	if (Ethernet.begin(mac) == 0) {
+		Serial.println("Failed to configure Ethernet using DHCP"); 
+	}
+
+	dht.begin(); 
+	delay(10000); // GIVE THE SENSOR SOME TIME TO START
+
+	h = (int) dht.readHumidity(); 
+	t = (int) dht.readTemperature(); 
+
+	data = "";
 }
 
-void loop() {
-  delay(30000);
-  readDhtData();
-  sensors_event_t event;
-  tsl.getEvent(&event);
-  
-  if (event.light)
-  {
-      
-     String jsonString = "{\"humidity\":\"";
-    jsonString += strH;
-    jsonString +="\",\"temperature\":\"";
-    jsonString += strT;
-    jsonString +="\",\"lux\":\"";
-    jsonString += event.light;
-    jsonString +="\"}";
-    
-    Serial.print('B');
-    Serial.print(jsonString);
-    Serial.print('E');
-    Serial.print('\n');
-  }
+void loop(){
+
+	currentMillis = millis();
+	if(currentMillis - previousMillis > interval) { // READ ONLY ONCE PER INTERVAL
+		previousMillis = currentMillis;
+		h = (int) dht.readHumidity();
+		t = (int) dht.readTemperature();
+	}
+
+	data = "temp1=" + t + "&hum1=" + h;
+
+	if (client.connect("www.*****.*************.com",80)) { // REPLACE WITH YOUR SERVER ADDRESS
+		client.println("POST /add.php HTTP/1.1"); 
+		client.println("Host: *****.*************.com"); // SERVER ADDRESS HERE TOO
+		client.println("Content-Type: application/x-www-form-urlencoded"); 
+		client.print("Content-Length: "); 
+		client.println(data.length()); 
+		client.println(); 
+		client.print(data); 
+	} 
+
+	if (client.connected()) { 
+		client.stop();	// DISCONNECT FROM THE SERVER
+	}
+
+	delay(300000); // WAIT FIVE MINUTES BEFORE SENDING AGAIN
 }
 
-void readDhtData()
-{
-  float h = dht.readHumidity();
-  float t = dht.readTemperature();
-  
-  if (isnan(h) || isnan(t)) {
-    return;
-  }
-  
-  dtostrf(h,5,2,strH);
-  dtostrf(t,5,2,strT);
-}
+
+
