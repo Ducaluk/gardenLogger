@@ -1,13 +1,8 @@
 $(document).ready(function() {
-    var socket = io();
-    socket.on('data received', function(data) {
-    	populateDashBoard(data);
-    });
-
     $('#navDash a').on('click', showDashBoard);
     $('#navTable a').on('click', showTable);
 
-     $('#navDash a').trigger('click');
+    $('#navDash a').trigger('click');
 
 });
 
@@ -47,10 +42,9 @@ function showDashBoard(e) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:3000/api/dataLog/last",
+        url: "http://localhost:8888/personal/gardenLogger/server/api.php/datalog/last",
         success: function(data) {
-            //alert(data);
-            populateDashBoard(data[0]);
+            populateDashBoard(data);
         },
         error: function(data) {
             console.error(data);
@@ -67,7 +61,7 @@ function showTable(e) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:3000/api/dataLog",
+        url: "http://localhost:8888/personal/gardenLogger/server/api.php/datalog",
         success: function(data) {
         	populateTable(data);
         },
