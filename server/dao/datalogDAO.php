@@ -27,6 +27,23 @@ class dataLogDAO
         }
     }
 
+    public function getLastDatalog()
+    {
+        try
+        {
+            $sql = "SELECT * FROM datalog ORDER BY inserted_date DESC LIMIT 1";
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetch();
+
+            return $result;
+        }
+        catch(PDOException $e)
+        {
+            throw new Exception("Failed to retrieve datalog");
+        }
+    }
+
     public function addDataLog($temperature,$humidity,$lux)
     {
   
